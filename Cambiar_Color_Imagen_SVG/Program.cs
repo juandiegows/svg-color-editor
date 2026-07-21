@@ -14,8 +14,7 @@ namespace Cambiar_Color_Imagen_SVG
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            ApplicationConfiguration.Initialize();
             Application.Run(new FormCambiarSVG());
         }
     }

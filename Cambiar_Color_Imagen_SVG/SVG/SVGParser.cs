@@ -1,4 +1,5 @@
 ﻿using Svg;
+using Svg.FilterEffects;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -39,7 +40,29 @@ namespace Cambiar_Color_Imagen_SVG.SVG
         public static SvgDocument GetSvgDocument(string filePath)
         {
             SvgDocument document = SvgDocument.Open(filePath);
+            QuitarFiltrosNoSoportados(document);
             return AdjustSize(document);
+        }
+
+        /// <summary>
+        /// Elimina las primitivas feColorMatrix de los filtros del documento.
+        /// La libreria Svg no las compone correctamente: descarta el contenido del
+        /// grupo filtrado y solo dibuja la sombra, por lo que la imagen se veia como
+        /// una silueta gris sin colores. Las demas primitivas (feGaussianBlur,
+        /// feOffset, feComposite, feBlend) si funcionan, asi que la sombra se conserva.
+        /// Es habitual en los SVG exportados desde Figma, que usan feColorMatrix
+        /// dentro del filtro de sombra.
+        /// </summary>
+        /// <param name="document">El documento SVG a limpiar.</param>
+        private static void QuitarFiltrosNoSoportados(SvgDocument document)
+        {
+            foreach (SvgColourMatrix matriz in document.Descendants().OfType<SvgColourMatrix>().ToList())
+            {
+                if (matriz.Parent != null)
+                {
+                    matriz.Parent.Children.Remove(matriz);
+                }
+            }
         }
 
         /// <summary>

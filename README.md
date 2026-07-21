@@ -15,5 +15,31 @@ Solo busca la imagen SVG y puede editar color por color
 
 ![image](https://user-images.githubusercontent.com/65135568/117901971-1c052280-b292-11eb-895e-00f5c8626dae.png)
 
+## Requisitos
+
+- [.NET 10 SDK](https://dotnet.microsoft.com/download) para compilar
+- [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download) para ejecutar el binario
+- Windows
+
+## Compilar y ejecutar
+
+```bash
+dotnet build CambiarColorImagenSVG_.sln -c Release
+dotnet run --project Cambiar_Color_Imagen_SVG
+```
+
+Para generar un ejecutable autocontenido (no requiere instalar el runtime):
+
+```bash
+dotnet publish Cambiar_Color_Imagen_SVG -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true
+```
+
+## Dependencias
+
+| Paquete | Versión |
+| --- | --- |
+| [Svg](https://www.nuget.org/packages/Svg) | 3.4.7 |
+| [Guna.UI2.WinForms](https://www.nuget.org/packages/Guna.UI2.WinForms) | 2.0.4.8 |
+
 
 

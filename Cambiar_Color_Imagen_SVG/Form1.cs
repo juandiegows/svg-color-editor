@@ -56,6 +56,35 @@ namespace Cambiar_Color_Imagen_SVG
         {
             InitializeComponent();
             this.MaximumSize = Screen.PrimaryScreen.WorkingArea.Size;
+            AplicarCursorDeMano(this);
+        }
+
+        /// <summary>
+        /// Pone el cursor de mano sobre todos los botones del formulario.
+        /// Guna2Button no lo trae por defecto y las flechas de ampliar/reducir son
+        /// PictureBox, asi que hay que asignarlo a mano.
+        /// </summary>
+        /// <param name="contenedor">El control cuyos hijos se van a recorrer.</param>
+        private void AplicarCursorDeMano(Control contenedor)
+        {
+            foreach (Control control in contenedor.Controls)
+            {
+                // pickImagen se excluye: su cursor cambia a cruz al elegir un color.
+                bool esBoton = control != pickImagen
+                    && (control is Guna.UI2.WinForms.Guna2Button
+                        || control is Button
+                        || control is PictureBox);
+
+                if (esBoton)
+                {
+                    control.Cursor = Cursors.Hand;
+                }
+
+                if (control.HasChildren)
+                {
+                    AplicarCursorDeMano(control);
+                }
+            }
         }
 
         private void panelSuperior_MouseDown(object sender, MouseEventArgs e)
