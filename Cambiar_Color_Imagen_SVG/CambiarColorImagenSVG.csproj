@@ -17,6 +17,11 @@
     <ApplicationVisualStyles>true</ApplicationVisualStyles>
     <ApplicationUseCompatibleTextRendering>false</ApplicationUseCompatibleTextRendering>
     <ApplicationHighDpiMode>DpiUnaware</ApplicationHighDpiMode>
+    <!-- El formulario se diseno con AutoScaleDimensions (6,13), que corresponde a la
+         fuente por defecto de .NET Framework (Microsoft Sans Serif 8.25pt). .NET moderno
+         usa Segoe UI 9pt = (7,15), lo que escalaba toda la interfaz un 16% respecto al
+         diseno original (el MinimumSize de 800 se volvia 931). -->
+    <ApplicationDefaultFont>Microsoft Sans Serif, 8.25pt</ApplicationDefaultFont>
   </PropertyGroup>
 
   <PropertyGroup>

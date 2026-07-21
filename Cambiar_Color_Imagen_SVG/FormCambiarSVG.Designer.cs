@@ -696,9 +696,9 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(800, 540);
             this.Name = "FormCambiarSVG";
-            this.Padding = new System.Windows.Forms.Padding(1);
+            this.Padding = new System.Windows.Forms.Padding(1, 0, 1, 1);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
+            this.Text = "Cambiar color Imagen SVG";
             this.panelSuperior.ResumeLayout(false);
             this.panelSuperior.PerformLayout();
             this.panelIzquierdo.ResumeLayout(false);
