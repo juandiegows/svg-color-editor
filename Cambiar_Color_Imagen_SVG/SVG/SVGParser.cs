@@ -33,6 +33,24 @@ namespace Cambiar_Color_Imagen_SVG.SVG
         }
 
         /// <summary>
+        /// Dibuja un SVG en el tamano indicado, sin pasar por SizeInicio.
+        /// Lo usa la galeria para sus miniaturas, que necesitan un tamano propio y no
+        /// deben alterar el tamano con el que se abre la imagen principal.
+        /// </summary>
+        /// <param name="filePath">La ruta completa de la imagen SVG.</param>
+        /// <param name="tamano">El tamano al que se quiere dibujar.</param>
+        /// <returns>Devuelve la imagen Bitmap del tamano pedido.</returns>
+        public static Bitmap GetMiniatura(string filePath, Size tamano)
+        {
+            SvgDocument document = SvgDocument.Open(filePath);
+            QuitarFiltrosNoSoportados(document);
+            document.Width = tamano.Width;
+            document.Height = tamano.Height;
+
+            return document.Draw();
+        }
+
+        /// <summary>
         /// Obtiene un SvgDocument para manipularlo usando la ruta proporcionada.
         /// </summary>
         /// <param name="filePath">La ruta de la imagen Bitmap</param>

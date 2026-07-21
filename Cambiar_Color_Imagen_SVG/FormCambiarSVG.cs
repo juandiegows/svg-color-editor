@@ -1,4 +1,5 @@
-﻿using Cambiar_Color_Imagen_SVG.SVG;
+﻿using Cambiar_Color_Imagen_SVG.Galeria;
+using Cambiar_Color_Imagen_SVG.SVG;
 using Svg;
 using System;
 using System.Collections.Generic;
@@ -52,6 +53,7 @@ namespace Cambiar_Color_Imagen_SVG
         //Declaración de variables
         private string selectedPath;
         private Svg.SvgDocument svgDocument;
+        private PanelGaleria galeria;
 
         private const int WS_SIZEBOX = 0x00040000;
 
@@ -108,8 +110,24 @@ namespace Cambiar_Color_Imagen_SVG
         {
             InitializeComponent();
             this.MaximumSize = Screen.PrimaryScreen.WorkingArea.Size;
+            AgregarGaleria();
             AplicarCursorDeMano(this);
             ActivarDobleBuffer(this);
+        }
+
+        /// <summary>
+        /// Monta la galeria de ejemplos como columna a la derecha del formulario.
+        /// </summary>
+        private void AgregarGaleria()
+        {
+            galeria = new PanelGaleria();
+            galeria.SvgSeleccionado += CargarSvg;
+
+            // El acoplado se resuelve del final de Controls hacia el principio, asi que
+            // la barra de titulo se manda al final para que siga ocupando todo el ancho
+            // y la galeria quede por debajo de ella.
+            this.Controls.Add(galeria);
+            this.panelSuperior.SendToBack();
         }
 
         /// <summary>
@@ -261,16 +279,25 @@ namespace Cambiar_Color_Imagen_SVG
             DialogResult selectResult = filePicker.ShowDialog();
             if (selectResult == System.Windows.Forms.DialogResult.OK)
             {
-                
-                SVGParser.SizeInicio = new Size(pickImagen.Width, pickImagen.Height);
-                selectedPath = filePicker.FileName;
-                txtBuscar.Text = selectedPath;
-                svgDocument = SVGParser.GetSvgDocument(selectedPath);
-                nupAncho.Value = (int) svgDocument.Width.Value;
-                nupAlto.Value = (int)  svgDocument.Height.Value;
-                pickImagen.Image = SVGParser.GetBitmapFromSVG(selectedPath);
-                Guardar.FileName = filePicker.FileName;
+                CargarSvg(filePicker.FileName);
             }
+        }
+
+        /// <summary>
+        /// Abre un SVG y lo deja listo para editar: es el camino que comparten el boton
+        /// Buscar y la galeria de ejemplos.
+        /// </summary>
+        /// <param name="ruta">La ruta completa del archivo SVG.</param>
+        private void CargarSvg(string ruta)
+        {
+            SVGParser.SizeInicio = new Size(pickImagen.Width, pickImagen.Height);
+            selectedPath = ruta;
+            txtBuscar.Text = ruta;
+            svgDocument = SVGParser.GetSvgDocument(ruta);
+            nupAncho.Value = (int)svgDocument.Width.Value;
+            nupAlto.Value = (int)svgDocument.Height.Value;
+            pickImagen.Image = SVGParser.GetBitmapFromSVG(ruta);
+            Guardar.FileName = ruta;
         }
 
         private void BtnColorFondo_Click(object sender, EventArgs e)

@@ -36,4 +36,11 @@
     <PackageReference Include="Svg" Version="3.4.7" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- Los ejemplos viajan junto al ejecutable: de ahi los lee la galeria. -->
+    <Content Include="..\Personajes Ejemplo\*.svg" Link="Personajes Ejemplo\%(Filename)%(Extension)">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

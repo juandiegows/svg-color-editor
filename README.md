@@ -15,6 +15,15 @@ Solo busca la imagen SVG y puede editar color por color
 
 ![image](https://user-images.githubusercontent.com/65135568/117901971-1c052280-b292-11eb-895e-00f5c8626dae.png)
 
+## Galería de ejemplos
+
+La aplicación trae una galería en el panel derecho con los personajes de la carpeta
+`Personajes Ejemplo`. Basta con hacer clic en una miniatura para cargarla y empezar a
+cambiarle los colores, sin tener que buscar un archivo.
+
+Los SVG se copian junto al ejecutable al compilar, así que también viajan en el
+`publish`. Para agregar más ejemplos solo hay que dejar el archivo `.svg` en esa carpeta.
+
 ## Requisitos
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download) para compilar
