@@ -25,8 +25,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Product>Cambiar_Color_Imagen_SVG</Product>
-    <AssemblyTitle>Cambiar_Color_Imagen_SVG</AssemblyTitle>
+    <Product>Editor de Colores SVG</Product>
+    <AssemblyTitle>Editor de Colores SVG</AssemblyTitle>
     <Copyright>Copyright © 2021</Copyright>
     <Version>1.0.0</Version>
   </PropertyGroup>

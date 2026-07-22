@@ -698,7 +698,7 @@
             this.Name = "FormCambiarSVG";
             this.Padding = new System.Windows.Forms.Padding(1, 0, 1, 1);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Cambiar color Imagen SVG";
+            this.Text = "Editor de Colores SVG";
             this.panelSuperior.ResumeLayout(false);
             this.panelSuperior.PerformLayout();
             this.panelIzquierdo.ResumeLayout(false);

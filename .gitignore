@@ -5,6 +5,11 @@
 [Bb]in/
 [Oo]bj/
 
+# Artefactos del empaquetado MSIX: staging es la copia publicada (121 MB) y
+# salida contiene el .msix generado (50 MB). Se regeneran con empaquetar.ps1.
+Empaquetado/staging/
+Empaquetado/salida/
+
 # User-specific files
 *.suo
 *.user
