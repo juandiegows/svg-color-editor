@@ -169,12 +169,21 @@ namespace Cambiar_Color_Imagen_SVG
         /// compensar ningun borde: esta ventana no tiene marco no-cliente (WS_SIZEBOX
         /// sin WS_CAPTION), asi que sumarle relleno solo desalineaba la ventana (dejaba
         /// hueco a la izquierda y se salia por la derecha al monitor siguiente).
+        ///
+        /// IMPORTANTE: no se puede dejar que esto siga a base.WndProc. Form tiene su
+        /// propio manejo de WM_GETMINMAXINFO (el mismo que usa el monitor primario a
+        /// secas) y, si se lo deja correr despues, vuelve a escribir el struct encima
+        /// del nuestro. Eso se notaba como un margen de ~2px sobrante y, peor, como
+        /// ptMaxTrackSize/ptMinTrackSize quedando mal calculados: el usuario no podia
+        /// redimensionar la ventana en Normal, y al restaurar desde Maximizado quedaba
+        /// con el mismo tamano maximizado en vez de volver al tamano anterior.
         /// </summary>
         protected override void WndProc(ref Message m)
         {
             if (m.Msg == WM_GETMINMAXINFO)
             {
                 AjustarLimitesDeMaximizado(m);
+                return;
             }
 
             base.WndProc(ref m);
