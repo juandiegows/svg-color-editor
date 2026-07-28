@@ -151,9 +151,6 @@ namespace Cambiar_Color_Imagen_SVG
 
         private const int WM_GETMINMAXINFO = 0x0024;
         private const int MONITOR_DEFAULTTONEAREST = 0x00000002;
-        private const int SM_CXSIZEFRAME = 32;
-        private const int SM_CYSIZEFRAME = 33;
-        private const int SM_CXPADDEDBORDER = 92;
 
         [DllImport("user32.dll")]
         private static extern IntPtr MonitorFromWindow(IntPtr hwnd, int dwFlags);
@@ -161,20 +158,17 @@ namespace Cambiar_Color_Imagen_SVG
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFO lpmi);
 
-        [DllImport("user32.dll")]
-        private static extern int GetSystemMetrics(int nIndex);
-
         /// <summary>
         /// Responde a WM_GETMINMAXINFO para calcular a mano el tamano y la posicion
         /// de maximizado.
         /// Con FormBorderStyle.None, el WindowState.Maximized por defecto de WinForms
-        /// (o un MaximizedBounds fijado a mano) usa el monitor primario y no compensa
-        /// el borde invisible que anade WS_SIZEBOX: el resultado son dos bugs juntos,
-        /// la ventana no llega al maximo en monitores distintos al principal, y ademas
-        /// queda corta (mas notorio abajo, contra la barra de tareas) porque ese borde
-        /// invisible se resta del area util. Windows resuelve ambos solo si se le
-        /// contesta aqui con el monitor real (MonitorFromWindow) y el borde sumado de
-        /// vuelta (SM_CXSIZEFRAME/SM_CYSIZEFRAME + SM_CXPADDEDBORDER).
+        /// usa el monitor primario en vez del monitor donde esta la ventana, asi que en
+        /// monitores secundarios no llegaba al maximo (o se pasaba al monitor vecino).
+        /// La correccion es dar aqui, a mano, el area de trabajo del monitor real
+        /// (MonitorFromWindow) expresada relativa a ese mismo monitor. No hace falta
+        /// compensar ningun borde: esta ventana no tiene marco no-cliente (WS_SIZEBOX
+        /// sin WS_CAPTION), asi que sumarle relleno solo desalineaba la ventana (dejaba
+        /// hueco a la izquierda y se salia por la derecha al monitor siguiente).
         /// </summary>
         protected override void WndProc(ref Message m)
         {
@@ -201,15 +195,12 @@ namespace Cambiar_Color_Imagen_SVG
                 return;
             }
 
-            int bordeX = GetSystemMetrics(SM_CXSIZEFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER);
-            int bordeY = GetSystemMetrics(SM_CYSIZEFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER);
-
             MINMAXINFO mmi = (MINMAXINFO)m.GetLParam(typeof(MINMAXINFO));
 
-            mmi.ptMaxPosition.X = (info.rcWork.Left - info.rcMonitor.Left) + bordeX;
-            mmi.ptMaxPosition.Y = (info.rcWork.Top - info.rcMonitor.Top) + bordeY;
-            mmi.ptMaxSize.X = (info.rcWork.Right - info.rcWork.Left) + (2 * bordeX);
-            mmi.ptMaxSize.Y = (info.rcWork.Bottom - info.rcWork.Top) + (2 * bordeY);
+            mmi.ptMaxPosition.X = info.rcWork.Left - info.rcMonitor.Left;
+            mmi.ptMaxPosition.Y = info.rcWork.Top - info.rcMonitor.Top;
+            mmi.ptMaxSize.X = info.rcWork.Right - info.rcWork.Left;
+            mmi.ptMaxSize.Y = info.rcWork.Bottom - info.rcWork.Top;
             mmi.ptMaxTrackSize = mmi.ptMaxSize;
 
             Marshal.StructureToPtr(mmi, m.LParam, true);
