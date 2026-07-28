@@ -15,7 +15,7 @@ Editor de Colores SVG
 *(máx. 200 caracteres — aparece en resultados de búsqueda)*
 
 ```
-Cambia los colores de cualquier imagen SVG con solo elegir el color a reemplazar y el nuevo. Exporta el resultado como PNG.
+Cambia los colores de cualquier imagen SVG y exporta el resultado como SVG, PNG, JPG o BMP, en el tamaño que necesites. Sin conexión, sin cuenta.
 ```
 
 ## Descripción
@@ -23,15 +23,18 @@ Cambia los colores de cualquier imagen SVG con solo elegir el color a reemplazar
 ```
 Editor de Colores SVG te permite recolorear imágenes vectoriales sin abrir un editor gráfico pesado ni tocar una línea de código.
 
-Abre un archivo SVG, elige el color que quieres reemplazar, elige el nuevo, y listo. Puedes tomar los colores directamente de la imagen con el selector, ajustar el tamaño de la vista previa y exportar el resultado como PNG.
+Abre un archivo SVG, elige el color que quieres reemplazar, elige el nuevo, y listo. El resultado sigue siendo un vector: lo puedes guardar como SVG, o exportarlo como imagen en el tamaño que necesites.
 
 QUÉ PUEDES HACER
 
-• Reemplazar cualquier color de una imagen SVG por otro
+• Reemplazar uno o varios colores a la vez, con una paleta que muestra los colores reales del archivo
 • Tomar los colores con un selector, directamente desde la imagen
-• Cambiar el color de fondo de la vista previa
-• Ajustar el tamaño de la imagen antes de exportar
-• Guardar el resultado como PNG
+• Guardar el resultado como SVG (sigue siendo vector) o exportarlo como PNG, JPG o BMP
+• Exportar en varios tamaños de una sola vez (íconos, redes sociales, lo que necesites)
+• Deshacer y rehacer cambios (Ctrl+Z / Ctrl+Y)
+• Arrastrar y soltar un archivo SVG sobre la ventana para abrirlo
+• Acercar y alejar la vista previa, con fondo de cuadros para revisar la transparencia
+• Tema claro u oscuro, con tus últimos colores siempre a mano
 • Empezar desde la galería de personajes incluida, sin buscar archivos
 
 GALERÍA INCLUIDA
@@ -48,11 +51,11 @@ No necesita internet. No recolecta datos. No requiere cuenta.
 *(viñetas cortas, máx. 200 caracteres cada una)*
 
 ```
-Reemplaza colores de imágenes SVG en segundos
-Selector para tomar colores desde la propia imagen
-Exporta el resultado como PNG
+Reemplaza uno o varios colores de una imagen SVG a la vez
+Guarda el resultado como SVG, PNG, JPG o BMP
+Exporta en varios tamaños de una sola pasada
+Deshacer y rehacer, arrastrar y soltar, zoom y tema oscuro
 Galería de 12 personajes de ejemplo incluida
-Funciona sin conexión y sin recolectar datos
 ```
 
 ## Palabras clave de búsqueda
@@ -65,9 +68,31 @@ editor SVG
 cambiar color
 recolorear
 vectorial
-PNG
+exportar SVG
 color
 ```
+
+## Novedades de esta versión (1.1.0.0)
+
+*(Partner Center → Packages → "What's new in this version", o Store listing si el
+mercado no separa el campo. Máx. 1500 caracteres.)*
+
+```
+Novedades de la versión 1.1:
+
+• Guardar como SVG: el resultado recoloreado ahora se puede exportar como vector, no solo como imagen.
+• Reemplazar varios colores a la vez, eligiendo entre la paleta real de la imagen.
+• Exportar en varios tamaños de una sola pasada (íconos, redes sociales, etc.), en SVG, PNG, JPG o BMP.
+• Deshacer y rehacer (Ctrl+Z / Ctrl+Y).
+• Arrastrar y soltar un archivo SVG sobre la ventana para abrirlo.
+• Zoom en la vista previa y fondo de cuadros para revisar la transparencia.
+• Tema claro y oscuro, y colores recientes a mano en el selector.
+• El reemplazo de color ahora cubre toda la imagen (relleno, contorno y degradados), no solo el relleno de algunas figuras.
+• Se corrigieron el maximizado en varios monitores y los botones de ampliar/reducir tamaño, que antes fallaban de forma intermitente.
+```
+
+*(Texto completo de todos los cambios en `CHANGELOG.md`, por si hace falta más
+detalle en alguna sección.)*
 
 ---
 

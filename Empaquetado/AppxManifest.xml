@@ -15,7 +15,7 @@
   -->
   <Identity Name="JuanDiegoWS.EditordeColoresSVG"
             Publisher="CN=B54DDA08-C189-43DE-B136-A6406F42BCE2"
-            Version="1.0.0.0"
+            Version="1.1.0.0"
             ProcessorArchitecture="x64" />
 
   <Properties>
@@ -36,7 +36,7 @@
     <Application Id="EditorColoresSVG" Executable="Imagen SVG.exe" EntryPoint="Windows.FullTrustApplication">
       <uap:VisualElements
         DisplayName="Editor de Colores SVG"
-        Description="Reemplaza los colores de una imagen SVG y la exporta como PNG."
+        Description="Reemplaza los colores de una imagen SVG y la exporta como SVG, PNG, JPG o BMP."
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png" />
