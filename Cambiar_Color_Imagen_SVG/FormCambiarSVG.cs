@@ -109,10 +109,110 @@ namespace Cambiar_Color_Imagen_SVG
         public FormCambiarSVG()
         {
             InitializeComponent();
-            this.MaximumSize = Screen.PrimaryScreen.WorkingArea.Size;
             AgregarGaleria();
             AplicarCursorDeMano(this);
             ActivarDobleBuffer(this);
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct POINT
+        {
+            public int X;
+            public int Y;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct RECT
+        {
+            public int Left;
+            public int Top;
+            public int Right;
+            public int Bottom;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct MINMAXINFO
+        {
+            public POINT ptReserved;
+            public POINT ptMaxSize;
+            public POINT ptMaxPosition;
+            public POINT ptMinTrackSize;
+            public POINT ptMaxTrackSize;
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        private struct MONITORINFO
+        {
+            public int cbSize;
+            public RECT rcMonitor;
+            public RECT rcWork;
+            public int dwFlags;
+        }
+
+        private const int WM_GETMINMAXINFO = 0x0024;
+        private const int MONITOR_DEFAULTTONEAREST = 0x00000002;
+        private const int SM_CXSIZEFRAME = 32;
+        private const int SM_CYSIZEFRAME = 33;
+        private const int SM_CXPADDEDBORDER = 92;
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr MonitorFromWindow(IntPtr hwnd, int dwFlags);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFO lpmi);
+
+        [DllImport("user32.dll")]
+        private static extern int GetSystemMetrics(int nIndex);
+
+        /// <summary>
+        /// Responde a WM_GETMINMAXINFO para calcular a mano el tamano y la posicion
+        /// de maximizado.
+        /// Con FormBorderStyle.None, el WindowState.Maximized por defecto de WinForms
+        /// (o un MaximizedBounds fijado a mano) usa el monitor primario y no compensa
+        /// el borde invisible que anade WS_SIZEBOX: el resultado son dos bugs juntos,
+        /// la ventana no llega al maximo en monitores distintos al principal, y ademas
+        /// queda corta (mas notorio abajo, contra la barra de tareas) porque ese borde
+        /// invisible se resta del area util. Windows resuelve ambos solo si se le
+        /// contesta aqui con el monitor real (MonitorFromWindow) y el borde sumado de
+        /// vuelta (SM_CXSIZEFRAME/SM_CYSIZEFRAME + SM_CXPADDEDBORDER).
+        /// </summary>
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == WM_GETMINMAXINFO)
+            {
+                AjustarLimitesDeMaximizado(m);
+            }
+
+            base.WndProc(ref m);
+        }
+
+        private void AjustarLimitesDeMaximizado(Message m)
+        {
+            IntPtr monitor = MonitorFromWindow(this.Handle, MONITOR_DEFAULTTONEAREST);
+            if (monitor == IntPtr.Zero)
+            {
+                return;
+            }
+
+            MONITORINFO info = new MONITORINFO();
+            info.cbSize = Marshal.SizeOf(typeof(MONITORINFO));
+            if (!GetMonitorInfo(monitor, ref info))
+            {
+                return;
+            }
+
+            int bordeX = GetSystemMetrics(SM_CXSIZEFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER);
+            int bordeY = GetSystemMetrics(SM_CYSIZEFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER);
+
+            MINMAXINFO mmi = (MINMAXINFO)m.GetLParam(typeof(MINMAXINFO));
+
+            mmi.ptMaxPosition.X = (info.rcWork.Left - info.rcMonitor.Left) + bordeX;
+            mmi.ptMaxPosition.Y = (info.rcWork.Top - info.rcMonitor.Top) + bordeY;
+            mmi.ptMaxSize.X = (info.rcWork.Right - info.rcWork.Left) + (2 * bordeX);
+            mmi.ptMaxSize.Y = (info.rcWork.Bottom - info.rcWork.Top) + (2 * bordeY);
+            mmi.ptMaxTrackSize = mmi.ptMaxSize;
+
+            Marshal.StructureToPtr(mmi, m.LParam, true);
         }
 
         /// <summary>
@@ -559,7 +659,10 @@ namespace Cambiar_Color_Imagen_SVG
 
         private void BtnAcerca_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Este software fue hecho por Juan Diego\npara el canal de código Limpio");
+            using (FormAcerca formAcerca = new FormAcerca())
+            {
+                formAcerca.ShowDialog(this);
+            }
         }
     }
 }
