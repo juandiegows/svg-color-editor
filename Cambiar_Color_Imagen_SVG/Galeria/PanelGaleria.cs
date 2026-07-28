@@ -1,4 +1,5 @@
 using Cambiar_Color_Imagen_SVG.SVG;
+using Cambiar_Color_Imagen_SVG.Tema;
 using System;
 using System.Drawing;
 using System.IO;
@@ -27,8 +28,12 @@ namespace Cambiar_Color_Imagen_SVG.Galeria
 
         private readonly FlowLayoutPanel contenedor;
         private readonly ToolTip globo = new ToolTip();
+        private readonly Label titulo;
 
         private PictureBox seleccionada;
+
+        private Color colorMiniatura = ColorMiniatura;
+        private Color colorSeleccion = ColorSeleccion;
 
         /// <summary>
         /// Se dispara con la ruta completa del SVG que eligio el usuario.
@@ -51,7 +56,7 @@ namespace Cambiar_Color_Imagen_SVG.Galeria
                 BackColor = ColorPanel
             };
 
-            Label titulo = new Label
+            titulo = new Label
             {
                 Dock = DockStyle.Top,
                 Height = 34,
@@ -109,7 +114,7 @@ namespace Cambiar_Color_Imagen_SVG.Galeria
                 Size = TamanoMiniatura,
                 Margin = new Padding(4),
                 SizeMode = PictureBoxSizeMode.Zoom,
-                BackColor = ColorMiniatura,
+                BackColor = colorMiniatura,
                 Cursor = Cursors.Hand,
                 Tag = ruta
             };
@@ -213,11 +218,44 @@ namespace Cambiar_Color_Imagen_SVG.Galeria
         {
             if (seleccionada != null)
             {
-                seleccionada.BackColor = ColorMiniatura;
+                seleccionada.BackColor = colorMiniatura;
             }
 
             seleccionada = miniatura;
-            miniatura.BackColor = ColorSeleccion;
+            miniatura.BackColor = colorSeleccion;
+        }
+
+        /// <summary>
+        /// Repinta la galeria con los colores del tema activo.
+        /// </summary>
+        /// <param name="paleta">La paleta del tema.</param>
+        public void AplicarTema(Paleta paleta)
+        {
+            if (paleta == null)
+            {
+                return;
+            }
+
+            colorMiniatura = paleta.Tarjeta;
+            colorSeleccion = paleta.Seleccion;
+
+            this.BackColor = paleta.Lateral;
+            contenedor.BackColor = paleta.Lateral;
+            titulo.ForeColor = paleta.Texto;
+
+            foreach (Control control in contenedor.Controls)
+            {
+                if (control is PictureBox miniatura)
+                {
+                    miniatura.BackColor = ReferenceEquals(miniatura, seleccionada)
+                        ? colorSeleccion
+                        : colorMiniatura;
+                }
+                else if (control is Label aviso)
+                {
+                    aviso.ForeColor = paleta.Texto;
+                }
+            }
         }
 
         private void MostrarAviso(string texto)
