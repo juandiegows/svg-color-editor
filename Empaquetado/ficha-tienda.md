@@ -178,13 +178,17 @@ Resultado esperado: la clasificación más baja (3+ / Todos).
 
 ## Capturas
 
-En `Empaquetado/Capturas/`, las tres en 1366×768 (formato aceptado por la Store):
+En `Empaquetado/Capturas/`, 1600×900 (formato aceptado por la Store):
 
 | Archivo | Qué muestra |
 | --- | --- |
 | `01-editor.png` | Vista principal con un personaje cargado |
 | `02-galeria.png` | Selección desde la galería |
 | `03-personaje.png` | Otro personaje de ejemplo |
+| `04-tema-oscuro.png` | Tema oscuro |
+| `05-fondo-cuadros.png` | Fondo de cuadros, para revisar la transparencia |
+
+Subir las 5 en el mismo orden en Partner Center → Store listing → Screenshots.
 
 ## Imágenes: qué va dentro del paquete y qué va en la ficha
 
